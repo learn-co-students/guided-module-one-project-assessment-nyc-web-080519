@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_210913) do
+ActiveRecord::Schema.define(version: 2019_08_20_132533) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
@@ -21,10 +21,15 @@ ActiveRecord::Schema.define(version: 2019_08_19_210913) do
 
   create_table "professors", force: :cascade do |t|
     t.string "name"
+    t.boolean "order_of_the_phoenix"
+    t.boolean "dumbledores_army"
+    t.string "specialty"
   end
 
   create_table "students", force: :cascade do |t|
     t.string "name"
+    t.boolean "dumbledores_army"
+    t.boolean "order_of_the_phoenix"
   end
 
 end
