@@ -34,6 +34,8 @@ class Course < ActiveRecord::Base
     end
 
     #returns the string names of each course in the listings array
+    #need to use this when we show the user the listings,
+    #so the order of courses shown to them matches the order we are using to add a course
     def self.render_listings
         self.listings.map do |listing|
             listing[0]
@@ -47,6 +49,7 @@ class Course < ActiveRecord::Base
         end.uniq
     end
 
+    #helper function that returns an array of course objects of a particular subject
     def self.topical_courses(topic)
         self.all.select do |course|
             course.subject == topic
@@ -55,10 +58,11 @@ class Course < ActiveRecord::Base
 
     #returns an array of students in a particular course
     def students
+        #look through all courses and select all courses that match the name and prof id as the course instance we're on
         course_objects = self.class.all.select do |course|
             (course.name == self.name) && (course.professor_id == self.professor_id)
         end
-
+        #of those courses, we only want the students name
         student_names = course_objects.map do |obj|
             Student.find_student(obj.student_id).name
         end

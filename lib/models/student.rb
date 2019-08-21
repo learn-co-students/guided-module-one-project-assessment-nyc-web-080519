@@ -24,26 +24,36 @@ class Student < ActiveRecord::Base
         end
     end
 
-    #JOIN // LEAVE Dumbledore's Army or Order of the Phoenix
-    def leave_army
-        self.update(dumbledores_army: false)
+    # id 1 = DA, id 2 = OP from menu listing in cli.rb
+    # updates DA or OP attribute in a student instance
+    def update_org(org_name, change)
+        if org_name == "Dumbledore's Army"
+            self.update(dumbledores_army: change)
+        elsif org_name == "Order of the Phoenix"
+            self.update(order_of_the_phoenix: change)
+        else
+            puts "Sorry, you didn't enter a valid org id"
+        end
     end
 
-    def join_army
-        self.update(dumbledores_army: true)
-    end
+    # def leave_army
+    #     self.update(dumbledores_army: false)
+    # end
 
-    def leave_order
-        self.update(order_of_the_phoenix: false)
-    end
+    # def join_army
+    #     self.update(dumbledores_army: true)
+    # end
 
-    def join_order
-        self.update(order_of_the_phoenix: true)
-    end
+    # def leave_order
+    #     self.update(order_of_the_phoenix: false)
+    # end
+
+    # def join_order
+    #     self.update(order_of_the_phoenix: true)
+    # end
 
     # remove yourself from Hogwarts
     def get_expelled
-        # puts "get outta here!"
         #iterate through all of my courses and drop them
         self.courses.each do |course|
             self.drop_course(course)
@@ -54,7 +64,6 @@ class Student < ActiveRecord::Base
 
     # removes a course object from the DB
     def drop_course(course)
-        # puts "no more tests, yay!"
         course.delete
     end
 
@@ -62,10 +71,12 @@ class Student < ActiveRecord::Base
     def add_course(course_num)
         listing_index = course_num - 1
         course_data = Course.listings[listing_index]
+        #if the student is already enrolled in the course, don't add it again
         if self.course_names.include?(course_data[0])
             puts "You're already signed up for that course. You must really love it!"
             new_course = false
         else
+            #create a new course with the info from our course listings
             new_course = Course.create(name: course_data[0], subject: course_data[1], student_id: self.id, professor_id: course_data[2])
         end
         !!new_course
@@ -83,6 +94,7 @@ class Student < ActiveRecord::Base
         end.flatten.uniq
     end
 
+    #returns a student object that matches a student_id
     def self.find_student(student_id)
         self.find_by(id: student_id)
     end
