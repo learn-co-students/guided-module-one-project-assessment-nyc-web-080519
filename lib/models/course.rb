@@ -33,6 +33,13 @@ class Course < ActiveRecord::Base
         @@listings
     end
 
+    #returns the string names of each course in the listings array
+    def self.render_listings
+        self.listings.map do |listing|
+            listing[0]
+        end
+    end
+
     #returns an array of all unique course names as strings
     def self.names(array = self.all)
         array.map do |course|
@@ -48,8 +55,7 @@ class Course < ActiveRecord::Base
 
     #returns an array of students in a particular course
     def students
-
-        course_objects = self.all.select do |course|
+        course_objects = self.class.all.select do |course|
             (course.name == self.name) && (course.professor_id == self.professor_id)
         end
 
