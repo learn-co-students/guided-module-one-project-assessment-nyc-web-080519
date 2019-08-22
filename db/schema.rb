@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_132533) do
+ActiveRecord::Schema.define(version: 2019_08_22_020537) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "subject"
     t.integer "student_id"
     t.integer "professor_id"
+  end
+
+  create_table "houses", force: :cascade do |t|
+    t.string "name"
+    t.string "colors"
+    t.string "values"
+    t.string "mascot"
+    t.string "house_ghost"
+    t.string "founder"
   end
 
   create_table "professors", force: :cascade do |t|
@@ -30,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_132533) do
     t.string "name"
     t.boolean "dumbledores_army"
     t.boolean "order_of_the_phoenix"
+    t.integer "house_id"
   end
 
 end

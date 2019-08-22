@@ -43,6 +43,7 @@ class Course < ActiveRecord::Base
     end
 
     #returns an array of all unique course names as strings
+    #defaults to self.all unless a different array is passed in
     def self.names(array = self.all)
         array.map do |course|
             course.name

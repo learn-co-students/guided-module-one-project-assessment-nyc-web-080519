@@ -2,10 +2,12 @@ class Student < ActiveRecord::Base
 
     has_many :courses
     has_many :professors, through: :courses
+    belongs_to :house
 
     #returns an array of all student names
-    def self.names
-        self.all.map do |student|
+    #defaults to self.all unless a different array is passed in
+    def self.names(array = self.all)
+        array.map do |student|
             student.name
         end
     end
@@ -36,21 +38,21 @@ class Student < ActiveRecord::Base
         end
     end
 
-    # def leave_army
-    #     self.update(dumbledores_army: false)
-    # end
+    #returns an array of student names who are in DA
+    def self.da_members
+        student_objs = self.all.select do |student|
+            student.dumbledores_army
+        end
+        self.names(student_objs)
+    end
 
-    # def join_army
-    #     self.update(dumbledores_army: true)
-    # end
-
-    # def leave_order
-    #     self.update(order_of_the_phoenix: false)
-    # end
-
-    # def join_order
-    #     self.update(order_of_the_phoenix: true)
-    # end
+    #returns an array of student names who are in OP
+    def self.op_members
+        student_objs = self.all.select do |student|
+            student.order_of_the_phoenix
+        end
+        self.names(student_objs)
+    end
 
     # remove yourself from Hogwarts
     def get_expelled
@@ -99,6 +101,18 @@ class Student < ActiveRecord::Base
     #returns a student object that matches a student_id
     def self.find_student(student_id)
         self.find_by(id: student_id)
+    end
+
+    #returns an array of student names who are in my house
+    def house_mates
+        student_obj = self.class.all.select do |student|
+            student.house_id == self.house_id
+        end
+        housemates = student_obj.map do |obj|
+            obj.name
+        end
+        housemates.delete(self.name)
+        housemates
     end
 
 end

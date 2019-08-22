@@ -10,6 +10,13 @@ class Professor < ActiveRecord::Base
         end
     end
 
+    #returns an array of all professor specialties
+    def self.specialties
+        self.all.map do |prof|
+            prof.specialty
+        end
+    end
+
     # returns a prof object based on a given professor_id
     def self.find_prof(professor_id)
         self.find_by(id: professor_id)
@@ -34,6 +41,26 @@ class Professor < ActiveRecord::Base
         self.all.max_by do |professor|
             professor.courses.count 
         end.name
+    end
+
+    #returns an array of prof names who are in DA
+    def self.da_members
+        prof_objs = self.all.select do |prof|
+            prof.dumbledores_army
+        end
+        prof_objs.map do |obj|
+            obj.name
+        end
+    end
+
+    #returns an array of prof names who are in OP
+    def self.op_members
+        prof_objs = self.all.select do |prof|
+            prof.order_of_the_phoenix
+        end
+        prof_objs.map do |obj|
+            obj.name
+        end
     end
 
 end
