@@ -9,3 +9,4 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem 'rest-client'
+gem 'text-table'

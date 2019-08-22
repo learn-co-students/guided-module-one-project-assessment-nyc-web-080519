@@ -23,15 +23,15 @@ class Professor < ActiveRecord::Base
     end
 
     # returns an array of course names for courses a specific prof teaches
-    def self.course_names(professor)
-        professor.courses.map do |course|
+    def self.course_names(professor_obj)
+        professor_obj.courses.map do |course|
             course.name
         end.uniq
     end
 
     # returns an array of student names of student a specific prof teaches
-    def self.student_names(professor)
-        professor.students.map do |student|
+    def self.student_names(professor_obj)
+        professor_obj.students.map do |student|
             student.name
         end.uniq
     end
