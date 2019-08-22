@@ -89,9 +89,11 @@ class Student < ActiveRecord::Base
 
     #returns an array of student names that are in my classes
     def my_classmates
-        self.courses.map do |course|
+        classmates = self.courses.map do |course|
             course.students
         end.flatten.uniq
+        classmates.delete(self.name)
+        classmates
     end
 
     #returns a student object that matches a student_id

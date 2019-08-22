@@ -70,9 +70,9 @@ class CommandLineInterface
 
         if parsed_answer == "Y"         #call make a new student
             @@user_student = Student.create(name: name, dumbledores_army: false, order_of_the_phoenix: false)
-            puts "\nYou're in!\n"
+            puts "\nYer a wizard, #{name}!\n"
         else
-            puts "\nbye!\n\n"
+            puts "\nMaybe next year!\n\n"
             pid = fork{ exec 'killall', "afplay" }
             exit                        #exit
         end
@@ -97,7 +97,7 @@ class CommandLineInterface
         when "3"
             professor_menu
         when "4"
-            puts "\nBYEE!\n\n"
+            puts "\nSee you next year!\n\n"
             pid = fork{ exec 'killall', "afplay" }
             exit
         end
@@ -114,33 +114,13 @@ class CommandLineInterface
     
         case parsed_option
         when "1"
-            if @@user_student.course_names.count == 0
-                puts "\nLooks like you don't have any courses for this semester yet!"
-            else
-                puts "\n"
-                puts @@user_student.course_names
-            end
-            student_menu
+            render_my_courses
         when "2"
-            if @@user_student.prof_names.count == 0
-                puts "\nLooks like you don't have any courses for this semester yet!"
-            else
-                puts "\n"
-                puts @@user_student.prof_names
-            end
-            student_menu
+            render_my_profs
         when "3"
-            if @@user_student.my_classmates.count == 0
-                puts "\nLooks like you don't have any courses for this semester yet!"
-            else
-                puts "\n"
-                puts @@user_student.my_classmates
-            end
-            student_menu
+            render_my_classmates
         when "4"
-            puts "\n"
-            puts Student.names
-            student_menu
+            render_all_students
         when "5"
             render_is_classmate
         when "6"
@@ -199,6 +179,42 @@ class CommandLineInterface
         puts "10. Back to main menu"
     end
 
+    def render_my_courses
+        if @@user_student.course_names.count == 0
+            puts "\nLooks like you don't have any courses for this semester yet!"
+        else
+            puts "\nYou are currently enrolled in:"
+            puts @@user_student.course_names
+        end
+        student_menu
+    end
+
+    def render_my_profs
+        if @@user_student.prof_names.count == 0
+            puts "\nLooks like you don't have any courses for this semester yet!"
+        else
+            puts "\nYour professors are:"
+            puts @@user_student.prof_names
+        end
+        student_menu
+    end
+
+    def render_my_classmates
+        if @@user_student.my_classmates.count == 0
+            puts "\nLooks like you don't have any courses for this semester yet!"
+        else
+            puts "\nYour classmates are:"
+            puts @@user_student.my_classmates
+        end
+        student_menu
+    end
+
+    def render_all_students
+        puts "\nHere are all students enrolled at Hogwarts:"
+        puts Student.names
+        student_menu
+    end
+
     def render_is_classmate
         puts "\nWhich student?"
         print "⚡️ "
@@ -209,7 +225,6 @@ class CommandLineInterface
             puts "\nNo, #{input} isn't in any of your courses."
         else
             puts "\nSorry, we can't find that student."
-            #maybe add functionality to have them try again
         end
         student_menu
     end
@@ -239,17 +254,12 @@ class CommandLineInterface
             puts "\nType the name of the course you would like to drop:"
             print "⚡️ "
             to_delete = gets.chomp.strip
-            # parsed_to_delete = valid_course(to_delete, @@user_student.course_names)
-            # binding.pry
-            # clean this input: it must be a valid course name
             course_to_delete = Course.find_by(name: to_delete, student_id: @@user_student.id)
-            # binding.pry
             if course_to_delete
                 @@user_student.drop_course(course_to_delete)
                 puts "\nYou've successfully dropped #{course_to_delete.name} from your schedule."
             else
                 puts "\nSorry, we couldn't find that course in your schedule."
-                #maybe add functionality to have them try again
             end
         else
             puts "\nLooks like you don't have any courses for this semester yet!"
@@ -282,7 +292,7 @@ class CommandLineInterface
         case parsed_answer
         when "Y"
             @@user_student.get_expelled
-            puts "\nHave a nice life\n\n"
+            puts "\nHave a nice muggle life.\n\n"
             pid = fork{ exec 'killall', "afplay" }
             exit
         when "N"
@@ -303,23 +313,6 @@ class CommandLineInterface
                 valid = true
             else
                 puts "\nPlease enter a valid option number between 1 and #{num_options}:"
-                print "⚡️ "
-                input = gets.chomp.strip
-            end
-        end
-        input
-    end
-
-    # Determines if a course listing is valid based on a chomped input and a course listing sub-array. 
-    # IN PROGRESS
-    def valid_course(input, course_list)
-        valid = false
-
-        while valid == false
-            if course_list.include?(input.to_i)
-                valid = true
-            else
-                puts "\nPlease enter a valid course from #{course_list}:"
                 print "⚡️ "
                 input = gets.chomp.strip
             end
