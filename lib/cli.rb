@@ -14,7 +14,7 @@ class CommandLineInterface
     def greet
         puts "\n\nWelcome to Hogwarts School of Witchcraft and Wizardry!\n"
 
-        puts "\nWhat is your name?"
+        puts "\nWhat is your name?!"
         print "⚡️ "
         name = gets.chomp.strip
 
