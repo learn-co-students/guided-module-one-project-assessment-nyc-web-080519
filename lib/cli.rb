@@ -799,6 +799,7 @@ class CommandLineInterface
     def room_of_requirement
         puts "\n                                       Welcome to the\n"
         ascii_room
+        system "say 'Welcome to the Room of Requirement'"
 
         while true
             puts "\nWhat do you desire?"
@@ -813,7 +814,8 @@ class CommandLineInterface
         end
 
         puts "\nGoodbye, for now."
-        sleep(2)
+        system "say 'Mischief Managed'"
+        sleep(1)
         system "clear"
         #return to main promp to ask for your name again
         greet
