@@ -8,16 +8,18 @@ class CommandLineInterface
     def runner
         system "clear"
         pid = fork{ exec 'afplay', "Harry_Potter_Theme_Song_Hedwigs_Theme.mp3" }
-        puts "\n\n"
-        ascii_art
-        puts "\n\nWelcome to Hogwarts School of Witchcraft and Wizardry!\n"
-        system "say 'Welcome to Hogwarts School of Witchcraft and Wizardry'"
         greet
         sleep(1)
         main_menu
     end
 
     def greet
+        ascii_art
+        puts "\n\n                              Welcome to"
+        ascii_welcome
+        puts "                  School of Witchcraft and Wizardry!\n\n"
+        system "say 'Welcome to Hogwarts School of Witchcraft and Wizardry'"
+
         puts "\nWhat is your name?"
         print "⚡️ "
         name = gets.chomp.strip
@@ -31,16 +33,23 @@ class CommandLineInterface
             system "clear"
         end
 
-        puts "\nAre you a returning student? (Y/N)"
-        print "⚡️ "
-        returning_student = gets.chomp.strip
-        system "clear"
-        parsed_returning_student = valid_input(returning_student)
+        #easter egg
+        if name == "I solemnly swear I am up to no good"
+            room_of_requirement
+        end
 
-        if parsed_returning_student == "Y"  #check them in / look them up
-            welcome_back(name)
-        else                                #make a new student
-            create_student(name)
+        if name != "I solemnly swear I am up to no good"
+            puts "\nAre you a returning student? (Y/N)"
+            print "⚡️ "
+            returning_student = gets.chomp.strip
+            system "clear"
+            parsed_returning_student = valid_input(returning_student)
+
+            if parsed_returning_student == "Y"  #check them in / look them up
+                welcome_back(name)
+            else                                #make a new student
+                create_student(name)
+            end
         end
 
     end
@@ -119,15 +128,20 @@ class CommandLineInterface
                 sleep(0.5)
             end
             puts "\nHmmm, very interesting"
+            system "say 'Hmmm, very interesting'"
             house = House.all.sample
             sleep(3)
             puts "\n#{house.name}!"
+            system "say #{house.name}"
             @@user_student = Student.create(name: name, dumbledores_army: false, order_of_the_phoenix: false, house_id: house.id)
             sleep(2)
             puts "\nYer a wizard, #{name}!\n"
+            system "say Yer a wizard, #{name}"
         else
             puts "\nMaybe next year!\n\n"
             pid = fork{ exec 'killall', "afplay" }
+            ascii_art
+            puts "\n\n"
             exit                        #exit
         end
     end
@@ -156,6 +170,8 @@ class CommandLineInterface
         when "5"
             puts "\nSee you next year!\n\n"
             pid = fork{ exec 'killall', "afplay" }
+            ascii_art
+            puts "\n\n"
             exit
         end
     end
@@ -503,6 +519,8 @@ class CommandLineInterface
             @@user_student.get_expelled
             puts "\nHave a nice muggle life.\n\n"
             pid = fork{ exec 'killall', "afplay" }
+            ascii_art
+            puts "\n\n"
             exit
         when "N"
         end
@@ -775,6 +793,62 @@ class CommandLineInterface
         end
     end
 
+    #  -------------------------------------------------
+    #      EASTER EGGS
+
+    def room_of_requirement
+        puts "\n                                       Welcome to the\n"
+        ascii_room
+
+        while true
+            puts "\nWhat do you desire?"
+            answer = gets.chomp.strip
+
+            if answer.downcase == "mischief managed"
+                break
+            else
+                search = answer.gsub(/\s/,"+")
+                system "open https://www.google.com/search?q=#{search}"
+            end
+        end
+
+        puts "\nGoodbye, for now."
+        sleep(2)
+        system "clear"
+        #return to main promp to ask for your name again
+        greet
+    end
+
+
+    #  -------------------------------------------------
+    #      ASCII ART 
+
+
+    def ascii_welcome
+        puts <<-'EOF'
+                      __   __             __  ___  __  
+                |__| /  \ / _` |  |  /\  |__)  |  /__` 
+                |  | \__/ \__> |/\| /~~\ |  \  |  .__/                                                                                                                                                                            
+        EOF
+    end
+
+
+    def ascii_room
+        puts <<-'EOF'
+                    .___                                      ,__                          
+                    /   \   __.    __.  , _ , _          __.  /  `                         
+                    |__-' .'   \ .'   \ |' `|' `.      .'   \ |__                          
+                    |  \  |    | |    | |   |   |      |    | |                            
+                    /   \  `._.'  `._.' /   '   /       `._.' |                         
+        .___                                                               .   
+        /   \   ___    ___.  ,   . ` .___    ___  , _ , _     ___  , __   _/_  
+        |__-' .'   ` .'   `  |   | | /   \ .'   ` |' `|' `. .'   ` |'  `.  |   
+        |  \  |----' |    |  |   | | |   ' |----' |   |   | |----' |    |  |   
+        /   \ `.___,  `---|. `._/| / /     `.___, /   '   / `.___, /    |  \__/
+                          |/                                                   
+        EOF
+    end
+
     def ascii_art
         puts <<-'EOF'
                                          _ __
@@ -792,5 +866,6 @@ class CommandLineInterface
                                        \|                    `.\
         EOF
     end
+
 
 end
