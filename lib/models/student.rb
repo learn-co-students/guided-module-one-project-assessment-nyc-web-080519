@@ -75,7 +75,7 @@ class Student < ActiveRecord::Base
         course_data = Course.listings[listing_index]
         #if the student is already enrolled in the course, don't add it again
         if self.course_names.include?(course_data[0])
-            puts "\nYou're already signed up for that course. You must really love it!"
+            puts "\nYou're already signed up for #{course_data[0]}. You must really love it!"
             new_course = false
         else
             #create a new course with the info from our course listings

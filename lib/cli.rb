@@ -18,7 +18,7 @@ class CommandLineInterface
         puts "\n\n                              Welcome to"
         ascii_welcome
         puts "                  School of Witchcraft and Wizardry!\n\n"
-        system "say 'Welcome to Hogwarts School of Witchcraft and Wizardry'"
+        system "say -v Daniel Welcome to Hogwarts School of Witchcraft and Wizardry"
 
         puts "\nWhat is your name?"
         print "⚡️ "
@@ -42,8 +42,8 @@ class CommandLineInterface
             puts "\nAre you a returning student? (Y/N)"
             print "⚡️ "
             returning_student = gets.chomp.strip
-            system "clear"
             parsed_returning_student = valid_input(returning_student)
+            system "clear"
 
             if parsed_returning_student == "Y"  #check them in / look them up
                 welcome_back(name)
@@ -83,8 +83,8 @@ class CommandLineInterface
         puts "\nDo you want to create a new student? (Y/N)"
         print "⚡️ "
         answer = gets.chomp.strip
-        system "clear"
         parsed_answer = valid_input(answer)
+        system "clear"
 
         sorting_hat_song = [
             "Oh, you may not think I’m pretty,",
@@ -124,19 +124,19 @@ class CommandLineInterface
             puts "\n"
             sorting_hat_song.each do |line|
                 puts line
-                # system "say #{line}"
+                # system "say -v Daniel #{line}"
                 sleep(0.5)
             end
             puts "\nHmmm, very interesting"
-            system "say 'Hmmm, very interesting'"
+            system "say -v Daniel Hmmm, very interesting"
             house = House.all.sample
             sleep(3)
             puts "\n#{house.name}!"
-            system "say #{house.name}"
+            system "say -v Daniel #{house.name}"
             @@user_student = Student.create(name: name, dumbledores_army: false, order_of_the_phoenix: false, house_id: house.id)
             sleep(2)
             puts "\nYer a wizard, #{name}!\n"
-            system "say Yer a wizard, #{name}"
+            system "say -v Daniel Yer a wizard, #{name}"
         else
             puts "\nMaybe next year!\n\n"
             pid = fork{ exec 'killall', "afplay" }
@@ -155,8 +155,8 @@ class CommandLineInterface
         render_main_menu
         print "⚡️ "
         option = gets.chomp.strip
-        system "clear"
         parsed_option = valid_option(option, 5)
+        system "clear"
 
         case parsed_option
         when "1"
@@ -183,8 +183,8 @@ class CommandLineInterface
         render_student_menu
         print "⚡️ "
         option = gets.chomp.strip
-        system "clear"
         parsed_option = valid_option(option, 12)
+        system "clear"
     
         case parsed_option
         when "1"
@@ -223,8 +223,8 @@ class CommandLineInterface
         render_course_menu
         print "⚡️ "
         option = gets.chomp.strip
-        system "clear"
         parsed_option = valid_option(option, 6)
+        system "clear"
 
         case parsed_option
         when "1"
@@ -250,8 +250,8 @@ class CommandLineInterface
         render_prof_menu
         print "⚡️ "
         option = gets.chomp.strip
-        system "clear"
         parsed_option = valid_option(option, 6)
+        system "clear"
 
         case parsed_option
         when "1"
@@ -276,8 +276,8 @@ class CommandLineInterface
         render_house_menu
         print "⚡️ "
         option = gets.chomp.strip
-        system "clear"
         parsed_option = valid_option(option, 5)
+        system "clear"
 
         case parsed_option
         when "1"
@@ -404,7 +404,7 @@ class CommandLineInterface
     end
 
     def render_is_classmate
-        puts "\nWhich student?"
+        puts "\nPlease enter a student name for your search:"
         print "⚡️ "
         input = gets.chomp.strip
         system "clear"
@@ -428,8 +428,8 @@ class CommandLineInterface
 
         print "⚡️ "
         course_num = gets.chomp.strip.to_i
-        system "clear"
         parsed_course_num = valid_option(course_num, Course.listings.length).to_i
+        system "clear"
         
         added = @@user_student.add_course(parsed_course_num)
         if added
@@ -443,7 +443,7 @@ class CommandLineInterface
         if @@user_student.course_names.length != 0
             puts "\nYou are currently enrolled in:"
             puts @@user_student.course_names
-            puts "\nType the name of the course you would like to drop:"
+            puts "\nPlease type the name of the course you would like to drop:"
             print "⚡️ "
             to_delete = gets.chomp.strip
             system "clear"
@@ -467,15 +467,15 @@ class CommandLineInterface
         puts "2. Order of the Phoenix\n"
         print "⚡️ "
         org = gets.chomp.strip
-        system "clear"
         parsed_org = valid_option(org, 2)
+        system "clear"
 
         case parsed_org
         when "1"
-            puts "\nThese are the students in Dumbledore's Army:"
+            puts "\Here are the students in Dumbledore's Army:"
             puts Student.da_members
         when "2"
-            puts "\nThese are the students in Order of the Phoenix:"
+            puts "\Here are the students in Order of the Phoenix:"
             puts Student.op_members
         end
         sleep(2)
@@ -488,8 +488,8 @@ class CommandLineInterface
         puts "2. Order of the Phoenix\n"
         print "⚡️ "
         org = gets.chomp.strip
-        system "clear"
         parsed_org = valid_option(org, 2)
+        system "clear"
 
         case parsed_org
         when "1"
@@ -512,8 +512,8 @@ class CommandLineInterface
         puts "\nAre you sure you want to drop out of Hogwarts? (Y/N)"
         print "⚡️ "
         answer = gets.chomp.strip
-        system "clear"
         parsed_answer = valid_input(answer)
+        system "clear"
         case parsed_answer
         when "Y"
             @@user_student.get_expelled
@@ -541,13 +541,13 @@ class CommandLineInterface
     end
 
     def render_most_popular_course
-        puts "\nThe most popular course at Hogwarts this year is #{Course.most_popular}"
+        puts "\nThe most popular course at Hogwarts this year is #{Course.most_popular}."
         sleep(2)
         course_menu
     end
 
     def render_least_popular_course
-        puts "\nThe least popular course at Hogwarts this year is #{Course.least_popular}"
+        puts "\nThe least popular course at Hogwarts this year is #{Course.least_popular}."
         sleep(2)
         course_menu
     end
@@ -556,13 +556,13 @@ class CommandLineInterface
         puts "\nHogwarts has a maximum number of students per course of 50.\nPlease enter a maximum course size for your search:"
         print "⚡️ "
         size = gets.chomp.strip
-        system "clear"
         parsed_size = valid_option(size, 50).to_i
+        system "clear"
 
         if Course.find_by_size(parsed_size).empty?
             puts "\nThere are no courses that fit that criteria."
         else
-            puts "\nHere are the courses with a maximum size of #{parsed_size}:"
+            puts "\nHere are the courses with #{parsed_size} students or less:"
             puts Course.find_by_size(parsed_size)
         end
         sleep(2)
@@ -590,7 +590,7 @@ class CommandLineInterface
     # RENDER PROFESSOR METHODS
 
     def render_all_professors
-        puts "\nHere is a list of professors at Hogwarts:"
+        puts "\nHere are all professors at Hogwarts:"
         puts Professor.names
         sleep(2)
         professor_menu
@@ -739,7 +739,6 @@ class CommandLineInterface
                 puts "\nPlease enter a valid option number between 1 and #{num_options}:"
                 print "⚡️ "
                 input = gets.chomp.strip
-                system "clear"
             end
         end
         input
@@ -757,7 +756,6 @@ class CommandLineInterface
                 puts "\nPlease enter Y or N:\n"
                 print "⚡️ "
                 input = gets.chomp.strip
-                system "clear"
             end
         end
         input
@@ -782,8 +780,8 @@ class CommandLineInterface
         puts "\nYou #{status} currently a member of #{org_name}. Would you like to #{change}? (Y/N)"
         print "⚡️ "
         answer = gets.chomp.strip
-        system "clear"
         parsed_answer = valid_input(answer)
+        system "clear"
 
         case parsed_answer
         when "Y"
@@ -799,7 +797,7 @@ class CommandLineInterface
     def room_of_requirement
         puts "\n                                       Welcome to the\n"
         ascii_room
-        system "say 'Welcome to the Room of Requirement'"
+        system "say -v Daniel Welcome to the Room of Requirement"
 
         while true
             puts "\nWhat do you desire?"
@@ -814,7 +812,7 @@ class CommandLineInterface
         end
 
         puts "\nGoodbye, for now."
-        system "say 'Mischief Managed'"
+        system "say -v Daniel Mischief Managed"
         sleep(1)
         system "clear"
         #return to main promp to ask for your name again
@@ -856,7 +854,6 @@ class CommandLineInterface
                                          _ __
         ___                             | '  \
    ___  \ /  ___         ,'\_           | .-. \        /|
-   \ /  | |,'__ \  ,'\_  |   \          | | | |      ,' |_   /|
  _ | |  | |\/  \ \ |   \ | |\_|    _    | |_| |   _ '-. .-',' |_   _
 // | |  | |____| | | |\_|| |__    //    |     | ,'_`. | | '-. .-',' `. ,'\_
 \\_| |_,' .-, _  | | |   | |\ \  //    .| |\_/ | / \ || |   | | / |\  \|   \
