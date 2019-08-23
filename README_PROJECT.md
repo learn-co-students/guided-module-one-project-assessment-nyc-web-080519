@@ -16,19 +16,22 @@ We were asked to build a **Command Line CRUD App** that uses a database to persi
 
 **Minimum requirements** for this project were to build a Command Line App that:
 
-1. Contains at least three models with corresponding tables, including a join table.
-2. Accesses a Sqlite3 database using ActiveRecord.
-3. Has a CLI that allows users to interact with your database as defined by your _user stories_ (minimum of four; one for each CRUD action).
-4. Uses good OO design patterns. You should have separate models for your runner and CLI interface.
+1. Contains at least three models with corresponding tables, including a join table
+2. Accesses a Sqlite3 database using ActiveRecord
+3. Has a CLI that allows users to interact with your database as defined by your _user stories_ (minimum of four; one for each CRUD action)
+4. Uses good OO design patterns. You should have separate models for your runner and CLI interface
 
 ---
 
 ## Setup
 
-1. Fork and clone this project repository.
-2. From terminal run the app by typing in `ruby bin/run.rb`.
-3. Follow instructions/prompts from our CLI app.
-4. Enjoy!
+1. Fork and clone this project repository
+2. In terminal, run `bundle install`
+3. In terminal, run `rake db:migrate`
+4. In teminal, run `rake db:seed`
+5. Start the app by running `ruby bin/run.rb`
+6. Follow instructions/prompts from our CLI app
+7. Enjoy!
 
 ![McGonagall clapping](https://media.giphy.com/media/PXvCWUnmqVdks/giphy.gif)
 
@@ -137,6 +140,6 @@ We used the [Potter API](https://www.potterapi.com/) to seed our database and cr
 
 ![sorting hat](https://media.giphy.com/media/Tl2AK8HOHj7SU/giphy.gif)
 
-* Try entering your name as: `I solemnly swear I am up to no good` (hint: type `Mischief Managed` to go back)
+* Try entering your name as: `I solemnly swear I am up to no good`. (Hint: type `Mischief Managed` to go back)
 
 ![I solemny swear I am up to no good](http://giphygifs.s3.amazonaws.com/media/NsXfE1pDj0ZNu/giphy.gif)
