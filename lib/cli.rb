@@ -33,12 +33,14 @@ class CommandLineInterface
             system "clear"
         end
 
+        parsed_name = downcase_camelcase_input(name)
+
         #easter egg
-        if name == "I solemnly swear I am up to no good"
+        if parsed_name == "I Solemnly Swear I Am Up To No Good"
             room_of_requirement
         end
 
-        if name != "I solemnly swear I am up to no good"
+        if parsed_name != "I Solemnly Swear I Am Up To No Good"
             puts "\nAre you a returning student? (Y/N)"
             print "⚡️ "
             returning_student = gets.chomp.strip
@@ -46,9 +48,9 @@ class CommandLineInterface
             system "clear"
 
             if parsed_returning_student == "Y"  #check them in / look them up
-                welcome_back(name)
+                welcome_back(parsed_name)
             else                                #make a new student
-                create_student(name)
+                create_student(parsed_name)
             end
         end
 
@@ -407,11 +409,12 @@ class CommandLineInterface
         puts "\nPlease enter a student name for your search:"
         print "⚡️ "
         input = gets.chomp.strip
+        parsed_input = downcase_camelcase_input(input)
         system "clear"
-        if Student.find_by(name: input) && @@user_student.is_classmate?(input)
-            puts "\nYes! #{input} is in at least one of your courses."
-        elsif Student.find_by(name: input)
-            puts "\nNo, #{input} isn't in any of your courses."
+        if Student.find_by(name: parsed_input) && @@user_student.is_classmate?(parsed_input)
+            puts "\nYes! #{parsed_input} is in at least one of your courses."
+        elsif Student.find_by(name: parsed_input)
+            puts "\nNo, #{parsed_input} isn't in any of your courses."
         else
             puts "\nSorry, we can't find that student."
         end
@@ -446,8 +449,9 @@ class CommandLineInterface
             puts "\nPlease type the name of the course you would like to drop:"
             print "⚡️ "
             to_delete = gets.chomp.strip
+            parsed_to_delete = downcase_camelcase_input(to_delete)
             system "clear"
-            course_to_delete = Course.find_by(name: to_delete, student_id: @@user_student.id)
+            course_to_delete = Course.find_by(name: parsed_to_delete, student_id: @@user_student.id)
             if course_to_delete
                 @@user_student.drop_course(course_to_delete)
                 puts "\nYou've successfully dropped #{course_to_delete.name} from your schedule."
@@ -574,13 +578,14 @@ class CommandLineInterface
         puts "\nPlease enter a subject for your search:"
         print "⚡️ "
         subject = gets.chomp.strip
+        parsed_subject = downcase_camelcase_input(subject)
         system "clear"
 
-        if Course.find_by_subject(subject).empty?
+        if Course.find_by_subject(parsed_subject).empty?
             puts "\nSorry, we don't cover that subject matter."
         else
-            puts "\nHere are the courses within #{subject}:"
-            puts Course.find_by_subject(subject)
+            puts "\nHere are the courses within #{parsed_subject}:"
+            puts Course.find_by_subject(parsed_subject)
         end
         sleep(2)
         course_menu
@@ -606,13 +611,14 @@ class CommandLineInterface
         puts "\nPlease enter a subject for your search:"
         print "⚡️ "
         subject = gets.chomp.strip
+        parsed_subject = downcase_camelcase_input(subject)
         system "clear"
 
-        if Course.prof_by_subject(subject).empty?
+        if Course.prof_by_subject(parsed_subject).empty?
             puts "\nSorry, we don't have any professors that teach that at Hogwarts."
         else
-            puts "\nHere are the #{subject} professors:"
-            puts Course.prof_by_subject(subject)
+            puts "\nHere are the #{parsed_subject} professors:"
+            puts Course.prof_by_subject(parsed_subject)
         end
         sleep(2)
         professor_menu
@@ -622,9 +628,10 @@ class CommandLineInterface
         puts "\nPlease enter a professor for your search:"
         print "⚡️ "
         prof_name = gets.chomp.strip
+        parsed_prof_name = downcase_camelcase_input(prof_name)
         system "clear"
 
-        professor_obj = Professor.find_by(name: prof_name)
+        professor_obj = Professor.find_by(name: parsed_prof_name)
 
         if professor_obj
             puts "\nHere are #{professor_obj.name}'s courses:"
@@ -640,9 +647,10 @@ class CommandLineInterface
         puts "\nPlease enter a professor for your search:"
         print "⚡️ "
         prof_name = gets.chomp.strip
+        parsed_prof_name = downcase_camelcase_input(prof_name)
         system "clear"
 
-        professor_obj = Professor.find_by(name: prof_name)
+        professor_obj = Professor.find_by(name: parsed_prof_name)
 
         if professor_obj
             puts "\nHere are #{professor_obj.name}'s students:"
@@ -678,9 +686,10 @@ class CommandLineInterface
         puts "\nPlease enter a house for your search:"
         print "⚡️ "
         house_name = gets.chomp.strip
+        parsed_house_name = downcase_camelcase_input(house_name)
         system "clear"
 
-        house_obj = House.find_by(name: house_name)
+        house_obj = House.find_by(name: parsed_house_name)
         if house_obj
             puts "\nHere are the students in #{house_obj.name}:"
             puts house_obj.student_names
@@ -747,18 +756,27 @@ class CommandLineInterface
     # Determines if an input listing is valid based on a chomped input and Y / N
     def valid_input(input)
         valid = false
-
+        parsed_input = downcase_camelcase_input(input)
         while valid == false
             #accepts uppercase or lowercase Y/N
-            if input.upcase == "Y" || input.upcase =="N"
+            if parsed_input == "Y" || parsed_input =="N"
                 valid = true
             else
                 puts "\nPlease enter Y or N:\n"
                 print "⚡️ "
                 input = gets.chomp.strip
+                parsed_input = downcase_camelcase_input(input)
             end
         end
-        input
+        parsed_input
+    end
+
+
+    #takes in an input string, splits the string on spaces, downcases each word and then capitalizes the first letter
+    def downcase_camelcase_input(input)
+        input.split(" ").collect do |word|
+            word.downcase.capitalize
+        end.join(" ")
     end
 
 

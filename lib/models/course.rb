@@ -5,27 +5,27 @@ class Course < ActiveRecord::Base
 
     #available courses: course name, subject, professor_id
     @@listings = [
-        ["Intro to Ancient Runes", "Ancient Runes", 1],
-        ["Intro to History of Magic", "History of Magic", 2],
-        ["Intro to Muggle Studies", "Muggle Studies", 3],
+        ["Intro To Ancient Runes", "Ancient Runes", 1],
+        ["Intro To History Of Magic", "History Of Magic", 2],
+        ["Intro To Muggle Studies", "Muggle Studies", 3],
         ["Advanced Muggle Studies", "Muggle Studies", 4],
-        ["Intro to Dark Arts", "Dark Arts", 5],
-        ["Intro to Charms", "Charms", 6],
+        ["Intro To Dark Arts", "Dark Arts", 5],
+        ["Intro To Charms", "Charms", 6],
         ["Advanced Charms", "Charms", 6],
-        ["Intro to Care of Magical Creatures", "Care of Magical Creatures", 7],
-        ["Advanced Care of Magical Creatures", "Care of Magical Creatures", 8],
-        ["Intro to Defence Against the Dark Arts", "Defence Against the Dark Arts", 12],
-        ["Advanced Defence Against the Dark Arts", "Defence Against the Dark Arts", 10],
-        ["Intro to Transfiguration", "Transfiguration", 11],
+        ["Intro To Care Of Magical Creatures", "Care Of Magical Creatures", 7],
+        ["Advanced Care Of Magical Creatures", "Care Of Magical Creatures", 8],
+        ["Intro To Defence Against The Dark Arts", "Defence Against The Dark Arts", 12],
+        ["Advanced Defence Against The Dark Arts", "Defence Against The Dark Arts", 10],
+        ["Intro To Transfiguration", "Transfiguration", 11],
         ["Advanced Transfiguration", "Transfiguration", 11],
-        ["Intro to Astronomy", "Astronomy", 13],
-        ["Intro to Potions", "Potions", 14],
+        ["Intro To Astronomy", "Astronomy", 13],
+        ["Intro To Potions", "Potions", 14],
         ["Advanced Potions", "Potions", 15],
-        ["Intro to Herbology", "Herbology", 16],
+        ["Intro To Herbology", "Herbology", 16],
         ["Advanced Herbology", "Herbology", 16],
-        ["Intro to Divination", "Divination", 17],
+        ["Intro To Divination", "Divination", 17],
         ["Advanced Divination", "Divination", 19],
-        ["Intro to Arithmancy", "Arithmancy", 18]
+        ["Intro To Arithmancy", "Arithmancy", 18]
     ]
 
     #returns our course listings class variable array

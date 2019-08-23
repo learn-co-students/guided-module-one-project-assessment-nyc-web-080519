@@ -7,6 +7,7 @@ require 'pry'
   Student.delete_all
   Professor.delete_all
   Course.delete_all
+  House.delete_all
   puts "deleted all students, professors, courses from DB"
 
   #reading from the HP API and parsing into a hash
