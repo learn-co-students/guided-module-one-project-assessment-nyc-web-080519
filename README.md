@@ -25,13 +25,16 @@ We were asked to build a **Command Line CRUD App** that uses a database to persi
 
 ## Setup
 
-1. Fork and clone this project repository
-2. In terminal, run `bundle install`
-3. In terminal, run `rake db:migrate`
-4. In teminal, run `rake db:seed`
-5. Start the app by running `ruby bin/run.rb`
-6. Follow instructions/prompts from our CLI app
-7. Enjoy!
+1. Make an account on [Potter API](https://www.potterapi.com/) to get your own API key
+2. Fork and clone this project repository
+3. Create an `.env` file in the top level directory
+4. In the `.env` file, create a constant variable: `API_KEY='your potter API key'`
+5. In terminal, run `bundle install`
+6. In terminal, run `rake db:migrate`
+7. In teminal, run `rake db:seed`
+8. Start the app by running `ruby bin/run.rb`
+9. Follow instructions/prompts from our CLI app
+10. Enjoy!
 
 ![McGonagall clapping](https://media.giphy.com/media/PXvCWUnmqVdks/giphy.gif)
 
