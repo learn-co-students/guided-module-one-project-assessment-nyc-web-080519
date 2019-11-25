@@ -8,6 +8,6 @@ gem "sqlite3"
 gem "pry"
 gem "require_all"
 gem "faker"
+gem 'dotenv'
 gem 'rest-client'
 gem 'text-table'
-gem 'dotenv'
